@@ -1,5 +1,17 @@
 import mongoose from "mongoose";
 
+// export interface IUser extends Document {
+//   username: string;
+//   hashedPassword: string;
+//   email: string;
+//   displayName: string;
+//   avatarUrl?: string; // Dấu ? nghĩa là thuộc tính này có thể có hoặc không (optional)
+//   avatarId?: string;
+//   bio?: string;
+//   createdAt: Date;
+//   updatedAt: Date;
+// }
+
 const userSchema = new mongoose.Schema(
   {
     username: {
