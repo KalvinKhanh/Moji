@@ -2,7 +2,7 @@ import bcrypt from "bcrypt";
 import { Request, Response } from "express";
 import User from "../models/User.ts";
 import jwt from "jsonwebtoken";
-import crypto from "crypto";
+import crypto, { setEngine } from "crypto";
 import Session from "../models/Session.ts";
 const ACCESS_TOKEN_TTL = "30m"; //thường là dưới 15m
 //nếu như là app ngân hàng thì chỉ dưới 1p
@@ -91,5 +91,22 @@ export const signIn = async (req: Request, res: Response) => {
   } catch (error) {
     console.error("lỗi khi gọi signIn", error);
     return res.status(500).json({ message: "lỗi hệ thống" });
+  }
+};
+
+export const signOut = async (req: Request, res: Response) => {
+  try {
+    //lấy refreshtoken từ cookies
+    const token = req.cookies?.refreshToken;
+    if (token) {
+      //xóa refreshtoken từ trong session
+      await Session.deleteOne({ refreshToken: token });
+      //xóa refreshtoken trong cookies
+      res.clearCookie("refreshToken");
+    }
+    return res.sendStatus(204);
+  } catch (error) {
+    console.log("Lỗi khi gọi signOut", error);
+    return res.status(500).json({ message: "Lỗi hệ thống" });
   }
 };
