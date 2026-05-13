@@ -17,7 +17,6 @@ function App() {
           <Route path="/" element={<ChatAppPage />} />
         </Routes>
       </BrowserRouter>
-      ;
     </>
   );
 }
